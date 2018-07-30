@@ -1,0 +1,115 @@
+<html>
+  <head>
+ 
+ <!-- Include meta tag to ensure proper rendering and touch zooming -->
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+ <!-- Include jQuery Mobile stylesheets -->
+ <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+ 
+ <!-- Include the jQuery library -->
+ <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+ 
+ <!-- Include the jQuery Mobile library -->
+ <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+ 
+ </head>
+ 
+ <body>
+ <div data-role="page" id="pageone" data-theme="b">
+ 
+  <div data-role="header">
+    
+   <h5 align="center"><font color= green><b>news kinG</b></font></h5>
+
+  </div>
+ 
+ 
+   
+ 
+   <div data-role="main" class="ui-content">
+ 
+ 
+ <ul data-role="listview" id="dta" >
+   </ul>
+ 
+   </div>
+ 
+ 
+ </div>
+ 
+ 
+ 
+ 
+ <div data-role="page" id="page2" data-theme="b">
+ 
+ 
+ 
+ 
+   <div data-role="header">
+     <a href="#pageone" data-transition="slide" data-direction="reverse" data-icon="back">Back</a>
+    <h1><font color= red>Enews Paper</font></h1>
+ 
+   </div>
+ 
+   <div data-role="main" class="ui-content" >
+        
+          <h1 id="dt" align="center"></h1>
+          
+          <h3 id="con"align="center"></h3>
+          <!-- <img src='' id='myimg'> -->
+   </div>
+ 
+ 
+ </div>
+ 
+   
+ <script type="text/javascript">
+ 
+     $.getJSON( "http://localhost/project/jsonp.php?callback=?", function( data ) {
+ 
+ 
+ 
+   $.each( data, function( key, val ) {
+    // alert(val.imgs);
+    $("#dta").append("<li><a href='#page2?name="+val.title+"&cont="+val.content+ "' data-transition='slide'><img src='http://localhost/project/admin/"+val.imgs+"'>"+val.title+"</a></li>");
+   });
+ //alert(imgs);
+  $('#dta').listview('refresh');
+ });
+ 
+ 
+     function getParameterByName(name, url) {
+     if (!url) url = window.location.href;
+ 
+ 
+     name = name.replace(/[\[\]]/g, "\\$&");
+     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+         results = regex.exec(url);
+     if (!results) return null;
+     if (!results[2]) return '';
+     return decodeURIComponent(results[2].replace(/\+/g, " "));
+ }
+ 
+ 
+ $(document).on("pagecontainerbeforetransition", function (e, data) {
+ 
+ 
+ 
+     if ($.type(data.toPage) !== "undefined" && $.type(data.absUrl) !== "undefined" && data.toPage[0].id == "page2") {
+ var name = getParameterByName('name',data.absUrl);
+ 
+ var con = getParameterByName('cont',data.absUrl);
+
+ var img = getParameterByName('imgs',data.absUrl);
+ console.log(img);
+ 
+ document.getElementById("dt").innerHTML=name;
+
+ document.getElementById("con").innerHTML=con;
+
+//  document.getElementById('myimg').setAttribute('src',"http://localhost/project/admin/"+img);
+ }
+ 
+});
+ </script>
